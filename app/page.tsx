@@ -2,6 +2,7 @@
 
 import Navbar from "@/components/Navbar";
 import StatsCards from "@/components/StatsCards";
+import TasksArea from "@/components/task-area/TasksArea";
 import { useTheme } from "next-themes";
 
 export default function Home() {
@@ -13,6 +14,7 @@ export default function Home() {
     <div className={`poppins min-h-screen ${bgColor} `}>
       <Navbar />
       <StatsCards />
+      <TasksArea />
     </div>
   );
 }
