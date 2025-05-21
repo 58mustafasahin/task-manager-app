@@ -2,6 +2,7 @@ import { Card, CardContent, CardFooter, CardHeader } from '../ui/card'
 import SearchInput from './SearchInput'
 import { Button } from '../ui/button'
 import { IoCloseSharp } from 'react-icons/io5'
+import PriorityDropDown from '../dropdowns/PriorityDropDown'
 
 const TasksArea = () => {
     return (
@@ -12,7 +13,7 @@ const TasksArea = () => {
                         <div className='flex items-center gap-2'>
                             <SearchInput />
                             {/* status drop down*/}
-                            {/* priority drop down*/}
+                            <PriorityDropDown />
 
                             <Button variant={'ghost'} className='h-10'>
                                 <span>Reset</span>
