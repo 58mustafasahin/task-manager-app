@@ -8,6 +8,7 @@ import { Column, ColumnDef } from "@tanstack/react-table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Checkbox } from "../ui/checkbox";
 import { Badge } from "../ui/badge";
+import { TasksDropDown } from "../dropdowns/tasks-dropdown/TasksDropDown";
 
 function renderStatusIcons(status: Status) {
     switch (status) {
@@ -185,5 +186,9 @@ export const tasksColumns: ColumnDef<Task>[] = [
     },
     {
         id: "actions",
+        header: "",
+        cell: () => <TasksDropDown />,
+        enableSorting: false,
+        enableHiding: false,
     },
 ];
