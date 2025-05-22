@@ -1,0 +1,60 @@
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Task } from "@/data/TasksData"
+import { Label } from "@radix-ui/react-dropdown-menu";
+import { useState } from "react";
+
+type Label = {
+    value: Task["label"];
+}
+
+const labels: Label[] = [
+    {
+        value:"Bug",
+    },
+    {
+        value:"Deployment",
+    },
+    {
+        value:"Documentation",
+    },
+    {
+        value:"Feature",
+    },
+    {
+        value:"Refactoring",
+    },
+    {
+        value:"Testing",
+    },
+];
+
+export default function TaskLabel() {
+    const [selectedLabel, setSelectedLabel] = useState<Task["label"]>("Bug");
+    
+    return (
+        <div className="flex flex-col gap-2">
+            <Label className="opacity text-sm font-medium">Task Label</Label>
+            <Select 
+                value={selectedLabel}
+                onValueChange={(value: Task["label"]) => {
+                    setSelectedLabel(value);
+                }}
+            >
+                <SelectTrigger className="w-full h-11">
+                    <SelectValue placeholder="Select a Label..." />
+                </SelectTrigger>
+                <SelectContent className="poppins">
+                    <SelectGroup>
+                        {labels.map((label, index) => (
+                            <SelectItem key={index} value={label.value}>
+                                <div className="flex items-center gap-2">
+                                    <span>{label.value}</span>
+                                </div>
+                            </SelectItem>
+                        ))}
+                    </SelectGroup>
+                </SelectContent>
+            </Select>
+        </div>
+    )
+}
