@@ -8,6 +8,7 @@ import ViewColumnsDropDown from '../dropdowns/ViewColumnsDropDown'
 import TasksTable from './TasksTable'
 import { tasksColumns } from './TasksColumns'
 import { tasks } from '@/data/TasksData'
+import PaginationArea from './pagination/PaginationArea'
 
 const TasksArea = () => {
     return (
@@ -31,7 +32,9 @@ const TasksArea = () => {
                 <CardContent>
                     <TasksTable columns={tasksColumns} data={tasks} />
                 </CardContent>
-                <CardFooter>{/* pagination */}</CardFooter>
+                <CardFooter>
+                    <PaginationArea />
+                </CardFooter>
             </Card>
         </div>
     )
