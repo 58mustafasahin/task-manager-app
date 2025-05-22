@@ -5,6 +5,9 @@ import { IoCloseSharp } from 'react-icons/io5'
 import PriorityDropDown from '../dropdowns/PriorityDropDown'
 import StatusDropDown from '../dropdowns/StatusDropDown'
 import ViewColumnsDropDown from '../dropdowns/ViewColumnsDropDown'
+import TasksTable from './TasksTable'
+import { tasksColumns } from './TasksColumns'
+import { tasks } from '@/data/TasksData'
 
 const TasksArea = () => {
     return (
@@ -25,7 +28,9 @@ const TasksArea = () => {
                         <ViewColumnsDropDown />
                     </div>
                 </CardHeader>
-                <CardContent>{/* table */}</CardContent>
+                <CardContent>
+                    <TasksTable columns={tasksColumns} data={tasks} />
+                </CardContent>
                 <CardFooter>{/* pagination */}</CardFooter>
             </Card>
         </div>
