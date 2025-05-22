@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from "react";
 import { IoArrowBack, IoArrowDown, IoArrowUp } from "react-icons/io5";
 import { IconType } from "react-icons/lib";

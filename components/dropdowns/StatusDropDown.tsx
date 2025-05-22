@@ -1,3 +1,5 @@
+'use client'
+
 import { ArrowUpCircle, CheckCircle2, Circle, HelpCircle, LucideIcon, XCircle } from 'lucide-react';
 import React, { useState } from 'react'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';

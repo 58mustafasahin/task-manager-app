@@ -4,6 +4,7 @@ import { Button } from '../ui/button'
 import { IoCloseSharp } from 'react-icons/io5'
 import PriorityDropDown from '../dropdowns/PriorityDropDown'
 import StatusDropDown from '../dropdowns/StatusDropDown'
+import ViewColumnsDropDown from '../dropdowns/ViewColumnsDropDown'
 
 const TasksArea = () => {
     return (
@@ -21,7 +22,7 @@ const TasksArea = () => {
                                 <IoCloseSharp />
                             </Button>
                         </div>
-                        {/* DropDownViewColums*/}
+                        <ViewColumnsDropDown />
                     </div>
                 </CardHeader>
                 <CardContent>{/* table */}</CardContent>
