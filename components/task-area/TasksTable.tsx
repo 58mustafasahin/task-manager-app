@@ -1,6 +1,15 @@
 import { Task } from "@/data/TasksData";
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
+import { ColumnDef, ColumnFiltersState, FilterFn, flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from "@tanstack/react-table"
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "../ui/table";
+import { useQueryStore } from "@/hooks/useQuertyStore";
+import { useEffect, useState } from "react";
+import { titleFilter } from "./filters/titleFilter";
+
+declare module "@tanstack/table-core" {
+    interface FilterFns {
+        titleFilter: FilterFn<Task>;
+    }
+}
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue> [],
@@ -11,11 +20,29 @@ export function TasksTable<TData extends Task, TValue>({
     columns,
     data,
 }: DataTableProps<TData, TValue>) {
+    const { query } = useQueryStore();
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        onColumnFiltersChange: setColumnFilters,
+        state: {
+            columnFilters,
+        },
+        filterFns: { titleFilter },
     });
+
+    useEffect(() => {
+        const newFilter: ColumnFiltersState = [];
+
+        if(query) {
+            newFilter.push({ id: 'title', value: query});
+        }
+
+        setColumnFilters(newFilter);
+    }, [query]);
 
     return (
         <div className="rounded-md border mt-2">
