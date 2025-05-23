@@ -1,7 +1,6 @@
 'use client'
 
 import { useTheme } from 'next-themes'
-import { Button } from './ui/button';
 import { ModeToggle } from '@/app/mode-toggle';
 import AppNameLogo from './AppNameLogo';
 import TaskDialog from './task-dialog/TaskDialog';

@@ -1,4 +1,4 @@
-import { useQueryStore } from '@/hooks/useQuertyStore'
+import { useQueryStore } from '@/hooks/useQueryStore'
 import { Input } from '../ui/input'
 
 const SearchInput = () => {

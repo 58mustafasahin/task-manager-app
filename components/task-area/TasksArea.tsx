@@ -9,8 +9,10 @@ import TasksTable from './TasksTable'
 import { tasksColumns } from './TasksColumns'
 import { tasks } from '@/data/TasksData'
 import PaginationArea from './pagination/PaginationArea'
+import { useCheckedPrioritiesStore } from '@/hooks/useCheckedPrioritiesStore'
 
 const TasksArea = () => {
+    const { setCheckedPriorities } = useCheckedPrioritiesStore();
     return (
         <div className='px-7 mt-5'>
             <Card>
@@ -21,7 +23,13 @@ const TasksArea = () => {
                             <StatusDropDown />
                             <PriorityDropDown />
 
-                            <Button variant={'ghost'} className='h-10'>
+                            <Button 
+                                onClick={() => {
+                                    setCheckedPriorities([]);
+                                }}
+                                variant={'ghost'} 
+                                className='h-10'
+                            >
                                 <span>Reset</span>
                                 <IoCloseSharp />
                             </Button>
