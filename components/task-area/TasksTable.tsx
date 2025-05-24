@@ -5,12 +5,15 @@ import { useQueryStore } from "@/hooks/useQueryStore";
 import { useEffect, useState } from "react";
 import { titleFilter } from "./filters/titleFilter";
 import { priorityFilter } from "./filters/priorityFilter";
+import { statusFilter } from "./filters/statusFilter";
 import { useCheckedPrioritiesStore } from "@/hooks/useCheckedPrioritiesStore";
+import { useCheckedStatusesStore } from "@/hooks/useCheckedStatusesStore";
 
 declare module "@tanstack/table-core" {
     interface FilterFns {
         titleFilter: FilterFn<Task>;
         priorityFilter: FilterFn<Task>;
+        statusFilter: FilterFn<Task>;
     }
 }
 
@@ -25,6 +28,7 @@ export function TasksTable<TData extends Task, TValue>({
 }: DataTableProps<TData, TValue>) {
     const { query } = useQueryStore();
     const { checkedPriorities } = useCheckedPrioritiesStore();
+    const { checkedStatuses } = useCheckedStatusesStore();
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const table = useReactTable({
         data,
@@ -35,7 +39,7 @@ export function TasksTable<TData extends Task, TValue>({
         state: {
             columnFilters,
         },
-        filterFns: { titleFilter, priorityFilter },
+        filterFns: { titleFilter, priorityFilter, statusFilter },
     });
 
     useEffect(() => {
@@ -48,9 +52,13 @@ export function TasksTable<TData extends Task, TValue>({
         if(checkedPriorities.length > 0) {
             newFilter.push({ id: 'priority', value: checkedPriorities});
         }
+        
+        if(checkedStatuses.length > 0) {
+            newFilter.push({ id: 'status', value: checkedStatuses});
+        }
 
         setColumnFilters(newFilter);
-    }, [query, checkedPriorities]);
+    }, [query, checkedPriorities, checkedStatuses]);
 
     return (
         <div className="rounded-md border mt-2">

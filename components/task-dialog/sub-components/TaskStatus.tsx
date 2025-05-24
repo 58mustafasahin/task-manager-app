@@ -27,7 +27,7 @@ const statuses: Status[] = [
         icon: CheckCircle2,
     },
     {
-        value:"Cancelled",
+        value:"Canceled",
         icon: XCircle,
     },
 ];

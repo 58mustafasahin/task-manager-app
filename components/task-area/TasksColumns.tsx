@@ -20,7 +20,7 @@ function renderStatusIcons(status: Status) {
             return ArrowUpCircle;
         case 'Done':
             return CheckCircle2;
-        case 'Cancelled':
+        case 'Canceled':
             return XCircle;
         default:
             break;

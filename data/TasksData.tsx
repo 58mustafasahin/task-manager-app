@@ -1,6 +1,6 @@
 export type Label = 'Bug' | 'Feature' | 'Documentation' | 'Testing' | 'Deployment' | 'Refactoring';
 export type Priority = 'Low' | 'Medium' | 'High';
-export type Status = 'Backlog' | 'Todo' | 'In Progress' | 'Done' | 'Cancelled';
+export type Status = 'Backlog' | 'Todo' | 'In Progress' | 'Done' | 'Canceled';
 export type Task = {
     taskId: string;
     title: string;
@@ -63,7 +63,7 @@ export const tasks: Task[] = [
         label: 'Refactoring',
         isFavorite: false,
         priority: 'Low',
-        status: 'Cancelled',
+        status: 'Canceled',
         createdAt: new Date('2024-10-06')
     }
 ];
