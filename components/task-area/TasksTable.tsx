@@ -1,13 +1,7 @@
 import { Task } from "@/data/TasksData";
-import { ColumnDef, ColumnFiltersState, FilterFn, flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from "@tanstack/react-table"
-import { Table, TableBody, TableHead, TableHeader, TableRow } from "../ui/table";
-import { useQueryStore } from "@/hooks/useQueryStore";
-import { useEffect, useState } from "react";
-import { titleFilter } from "./filters/titleFilter";
-import { priorityFilter } from "./filters/priorityFilter";
-import { statusFilter } from "./filters/statusFilter";
-import { useCheckedPrioritiesStore } from "@/hooks/useCheckedPrioritiesStore";
-import { useCheckedStatusesStore } from "@/hooks/useCheckedStatusesStore";
+import { ColumnDef, FilterFn, flexRender, Table } from "@tanstack/react-table"
+import { Table as ShadcnTable, TableBody, TableHead, TableHeader, TableRow } from "../ui/table";
+
 
 declare module "@tanstack/table-core" {
     interface FilterFns {
@@ -19,50 +13,17 @@ declare module "@tanstack/table-core" {
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue> [],
-    data: TData[];
+    table: Table<Task>;
 }
 
 export function TasksTable<TData extends Task, TValue>({
     columns,
-    data,
+    table,
 }: DataTableProps<TData, TValue>) {
-    const { query } = useQueryStore();
-    const { checkedPriorities } = useCheckedPrioritiesStore();
-    const { checkedStatuses } = useCheckedStatusesStore();
-    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-    const table = useReactTable({
-        data,
-        columns,
-        getCoreRowModel: getCoreRowModel(),
-        getFilteredRowModel: getFilteredRowModel(),
-        onColumnFiltersChange: setColumnFilters,
-        state: {
-            columnFilters,
-        },
-        filterFns: { titleFilter, priorityFilter, statusFilter },
-    });
-
-    useEffect(() => {
-        const newFilter: ColumnFiltersState = [];
-
-        if(query) {
-            newFilter.push({ id: 'title', value: query});
-        }
-        
-        if(checkedPriorities.length > 0) {
-            newFilter.push({ id: 'priority', value: checkedPriorities});
-        }
-        
-        if(checkedStatuses.length > 0) {
-            newFilter.push({ id: 'status', value: checkedStatuses});
-        }
-
-        setColumnFilters(newFilter);
-    }, [query, checkedPriorities, checkedStatuses]);
-
+    
     return (
         <div className="rounded-md border mt-2">
-            <Table>
+            <ShadcnTable>
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
@@ -100,7 +61,7 @@ export function TasksTable<TData extends Task, TValue>({
                         </TableRow>
                     )}
                 </TableBody>
-            </Table>
+            </ShadcnTable>
         </div>
     )
 }

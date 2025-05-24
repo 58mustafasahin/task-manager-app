@@ -84,11 +84,19 @@ const SortableHeader = ({ column, label }: SortableHeaderProps) => {
                     <IoArrowDown className="mr-2 h-4 w-4" />
                     Desc
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                    <GrHide className="mr-2 size-7 text-opacity-90" />
-                    Hide
-                </DropdownMenuItem> 
+                {label !=="Title" && (
+                    <>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem 
+                            onClick={() => {
+                                column.toggleVisibility();
+                            }}
+                        >
+                            <GrHide className="mr-2 size-7 text-opacity-90" />
+                            Hide
+                        </DropdownMenuItem> 
+                    </>
+                )}
             </DropdownMenuContent>
         </DropdownMenu>
     )
