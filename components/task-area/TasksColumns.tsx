@@ -9,6 +9,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { Checkbox } from "../ui/checkbox";
 import { Badge } from "../ui/badge";
 import { TasksDropDown } from "../dropdowns/tasks-dropdown/TasksDropDown";
+import { useTasksDataStore } from "@/hooks/useTasksDataStore";
 
 function renderStatusIcons(status: Status) {
     switch (status) {
@@ -195,8 +196,19 @@ export const tasksColumns: ColumnDef<Task>[] = [
     {
         id: "actions",
         header: "",
-        cell: () => <TasksDropDown />,
-        enableSorting: false,
-        enableHiding: false,
+        cell: ({ row }) => {
+            return <ShowTaskDropDown task={row.original} />
+        }
     },
 ];
+
+function ShowTaskDropDown({ task }: { task: Task }) {
+    const { setSelectedTask } = useTasksDataStore();
+
+    return (
+        <TasksDropDown
+            onOpen={() => setSelectedTask(task)}
+            onClose={() => setSelectedTask(null)}
+        />
+    )
+}

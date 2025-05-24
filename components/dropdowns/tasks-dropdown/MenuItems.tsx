@@ -1,5 +1,7 @@
 import { DropdownMenuItem, DropdownMenuShortcut } from "@/components/ui/dropdown-menu";
+import { useTasksDataStore } from "@/hooks/useTasksDataStore";
 import { LucideIcon } from "lucide-react";
+import { handleMenuItemClick } from "./utils";
 
 export function MenuItem({
     Icon,
@@ -12,8 +14,13 @@ export function MenuItem({
     shortcut: string;
     className?: string;
 }) {
+    const { tasks, selectedTask, updateTasks } = useTasksDataStore();
     return (
-        <DropdownMenuItem>
+        <DropdownMenuItem
+            onClick={() => 
+                handleMenuItemClick("favorite", tasks, selectedTask, updateTasks)
+            }
+        >
             <Icon className={`mr-2 h-4 w-4 ${className}`} />
             <span className={`${className}`}>{label}</span>
             {shortcut && (
