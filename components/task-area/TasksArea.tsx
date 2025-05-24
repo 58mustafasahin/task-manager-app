@@ -7,12 +7,16 @@ import StatusDropDown from '../dropdowns/StatusDropDown'
 import ViewColumnsDropDown from '../dropdowns/ViewColumnsDropDown'
 import TasksTable from './TasksTable'
 import { tasksColumns } from './TasksColumns'
-import { tasks } from '@/data/TasksData'
 import PaginationArea from './pagination/PaginationArea'
 import { useCheckedPrioritiesStore } from '@/hooks/useCheckedPrioritiesStore'
+import { useCheckedStatusesStore } from '@/hooks/useCheckedStatusesStore'
+import { useTasksDataStore } from '@/hooks/useTasksDataStore'
+import TableSkeleton from './TableSkeleton'
 
 const TasksArea = () => {
     const { setCheckedPriorities } = useCheckedPrioritiesStore();
+    const { setCheckedStatuses } = useCheckedStatusesStore();
+    const { tasks } = useTasksDataStore();
     return (
         <div className='px-7 mt-5'>
             <Card>
@@ -26,6 +30,7 @@ const TasksArea = () => {
                             <Button 
                                 onClick={() => {
                                     setCheckedPriorities([]);
+                                    setCheckedStatuses([]);
                                 }}
                                 variant={'ghost'} 
                                 className='h-10'
@@ -38,7 +43,11 @@ const TasksArea = () => {
                     </div>
                 </CardHeader>
                 <CardContent>
-                    <TasksTable columns={tasksColumns} data={tasks} />
+                    {!tasks ? (
+                        <TableSkeleton />
+                    ) : (
+                        <TasksTable columns={tasksColumns} data={tasks} />
+                    )}
                 </CardContent>
                 <CardFooter>
                     <PaginationArea />

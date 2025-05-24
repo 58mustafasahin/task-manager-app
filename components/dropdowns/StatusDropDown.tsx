@@ -10,7 +10,8 @@ import { Badge } from '../ui/badge';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '../ui/command';
 import { Checkbox } from '../ui/checkbox';
 import { useCheckedStatusesStore } from '@/hooks/useCheckedStatusesStore';
-import { Status, tasks } from '@/data/TasksData';
+import { Status } from '@/data/TasksData';
+import { useTasksDataStore } from '@/hooks/useTasksDataStore';
 
 type SingleStatusItem = {
     value: string;
@@ -55,6 +56,8 @@ const statusesArray: SingleStatusItem[] = [
 const StatusDropDown = () => {
     const [open, setOpen] = useState(false);
     const { checkedStatuses, setCheckedStatuses } = useCheckedStatusesStore();
+
+    const { tasks } = useTasksDataStore();
 
     function updateTheSelection(label: string) {
             const validStatuses: Status[] = [

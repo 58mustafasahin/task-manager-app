@@ -11,7 +11,8 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { FaPlusCircle } from "react-icons/fa";
 import { Checkbox } from "../ui/checkbox";
 import { useCheckedPrioritiesStore } from "@/hooks/useCheckedPrioritiesStore";
-import { Priority, tasks } from "@/data/TasksData";
+import { Priority } from "@/data/TasksData";
+import { useTasksDataStore } from "@/hooks/useTasksDataStore";
 
 
 type SinglePriorityItem = {
@@ -46,6 +47,8 @@ const PriorityDropDown = () => {
     const [open, setOpen] = useState(false);
 
     const { checkedPriorities, setCheckedPriorities } = useCheckedPrioritiesStore();
+
+    const { tasks } = useTasksDataStore();
 
     function updateTheSelection(label: string) {
         const validPriorities: Priority[] = ["Low", "Medium", "High"];
