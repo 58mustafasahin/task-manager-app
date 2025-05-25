@@ -2,6 +2,8 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { Task } from "@/data/TasksData"
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { useState } from "react";
+import { Controller, useFormContext } from "react-hook-form";
+import { TaskFormData } from "../TaskDialogSchema";
 
 type Label = {
     value: Task["label"];
@@ -29,32 +31,41 @@ const labels: Label[] = [
 ];
 
 export default function TaskLabel() {
-    const [selectedLabel, setSelectedLabel] = useState<Task["label"]>("Bug");
+    const { control } = useFormContext<TaskFormData>();
     
     return (
         <div className="flex flex-col gap-2">
             <Label className="opacity text-sm font-medium">Task Label</Label>
-            <Select 
-                value={selectedLabel}
-                onValueChange={(value: Task["label"]) => {
-                    setSelectedLabel(value);
+            <Controller
+                name="label"
+                defaultValue="Bug"
+                control={control}
+                render={({ field }) => {
+                    return ( 
+                        <Select
+                            value={field.value}
+                            onValueChange={(value: TaskFormData["label"]) => {
+                                field.onChange(value)
+                            }}
+                        >
+                            <SelectTrigger className="w-full h-11">
+                                <SelectValue placeholder="Select a Label..." />
+                            </SelectTrigger>
+                            <SelectContent className="poppins">
+                                <SelectGroup>
+                                    {labels.map((label, index) => (
+                                        <SelectItem key={index} value={label.value}>
+                                            <div className="flex items-center gap-2">
+                                                <span>{label.value}</span>
+                                            </div>
+                                        </SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                    );
                 }}
-            >
-                <SelectTrigger className="w-full h-11">
-                    <SelectValue placeholder="Select a Label..." />
-                </SelectTrigger>
-                <SelectContent className="poppins">
-                    <SelectGroup>
-                        {labels.map((label, index) => (
-                            <SelectItem key={index} value={label.value}>
-                                <div className="flex items-center gap-2">
-                                    <span>{label.value}</span>
-                                </div>
-                            </SelectItem>
-                        ))}
-                    </SelectGroup>
-                </SelectContent>
-            </Select>
+            />
         </div>
     )
 }
