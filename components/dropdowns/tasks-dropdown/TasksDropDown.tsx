@@ -52,6 +52,7 @@ export function TasksDropDown({
                     {menuItemsArray.map((item) => (
                         <MenuItem 
                             key={item.label} 
+                            kind={item.kind}
                             Icon={item.icon}
                             label={item.label}
                             shortcut={item.shortcut}
@@ -67,6 +68,7 @@ export function TasksDropDown({
                     <DropdownMenuSeparator />
                     <MenuItem 
                             Icon={Trash}
+                            kind='delete'
                             label='Delete'
                             shortcut='⇧⌘Q'
                             className="text-red-500"
