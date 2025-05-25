@@ -11,6 +11,7 @@ export interface useTasksDataStoreInterface {
         tasks: Task[],
         operation?: string | undefined
     ) => Promise<{ success: boolean; message: string }>;
+    addTask: (task: Task) => Promise<{ success: boolean; message: string }>;
 }
 
 export const useTasksDataStore = create<useTasksDataStoreInterface>((set) => ({
@@ -81,6 +82,33 @@ export const useTasksDataStore = create<useTasksDataStoreInterface>((set) => ({
             console.log(error);
 
             return { success: false, message: "Something went wrong!" };
+        }
+    },
+
+    addTask: async (task: Task) => {
+        try {
+            const result = await new Promise<{ success: boolean; message: string }>(
+                (resolve) => {
+                    setTimeout(() => {
+                        set((state) => {
+                            const updatedTasks = state.tasks
+                                ? [...state.tasks, task]
+                                : [task];
+                            return { tasks: updatedTasks };
+                        });
+
+                        resolve({
+                            success: true,
+                            message: "Task added successfully!",
+                        });
+                    }, 1000);
+                }
+            );
+            return result;
+        } catch (error) {
+            console.log(error);
+
+            return { success: false, message: "Failed to add task!" };
         }
     },
 }));

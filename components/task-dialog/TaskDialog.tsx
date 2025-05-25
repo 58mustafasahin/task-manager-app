@@ -9,6 +9,13 @@ import TaskTitle from "./sub-components/TaskTitle";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TaskFormData, taskFormSchema } from "./TaskDialogSchema";
+import { useTasksDataStore } from "@/hooks/useTasksDataStore";
+import { useOpenDialogStore } from "@/hooks/useOpenDialogStore";
+import { useState } from "react";
+import { generateRandomThreeDigitNumber } from "@/functions/generateRandomNumber";
+import { Task } from "@/data/TasksData";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 
 export default function TaskDialog(){
@@ -16,14 +23,48 @@ export default function TaskDialog(){
         resolver: zodResolver(taskFormSchema),
     });
 
-    const { handleSubmit } = methods;
+    const { addTask } = useTasksDataStore();
+
+    const { handleSubmit, reset } = methods;
+
+    const { isOpen, setIsOpen } = useOpenDialogStore();
+    const [isLoading, setIsLoading] = useState(false);
 
     const onSubmit = async (data: TaskFormData) => {
-        console.log(data);
-    }
+        setIsLoading(true);
+
+        const newTask: Task = {
+            taskId: `Task-${generateRandomThreeDigitNumber()}`,
+            title: data.title,
+            status: data.status,
+            priority: data.priority,
+            label: data.label,
+            isFavorite: false,
+            createdAt: new Date(),
+        };
+
+        try {
+            const result = await addTask(newTask);
+            toast(`${result.success ? `The Task ${newTask.taskId} Added successfully!` : "Failed to add the task!"}`,{
+                id: `add-toast-${newTask.taskId}`,
+                description: result.message,
+            });
+
+            reset();
+            setIsOpen(false);
+        } catch (error) {
+            console.log(error);
+
+            toast("Failed to add the task!",{
+                description: "An unexpected error occured.",
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     return (
-        <Dialog>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
                 <Button>Add New Task</Button>
             </DialogTrigger>
@@ -53,7 +94,16 @@ export default function TaskDialog(){
                                     Close
                                 </Button>
                             </DialogClose>
-                            <Button type="submit">Add new Task</Button>
+                            <Button type="submit" disabled={isLoading}>
+                                {isLoading ? (
+                                    <>
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        Adding Task...
+                                    </>
+                                ) : (
+                                    "Add new Task"
+                                )}
+                            </Button>
                         </DialogFooter>
                     </form>
                 </FormProvider>
