@@ -10,6 +10,8 @@ import { SubLabelMenu } from "./SubLabelMenu";
 import { Trash } from "lucide-react";
 import { useTasksDataStore } from "@/hooks/useTasksDataStore";
 import { MenuItemType } from "./types";
+import { Label, Task, tasks } from "@/data/TasksData";
+import { toast } from "sonner";
 
 export function TasksDropDown({
     onOpen,
@@ -20,7 +22,7 @@ export function TasksDropDown({
 }){
     const [selectedLabel, setSelectedLabel] = useState("Bug");
 
-    const { selectedTask } = useTasksDataStore();
+    const { selectedTask, updateTasks } = useTasksDataStore();
 
     const [menuItemsArray, setMenuItemsArray] = useState<MenuItemType[]>(MENU_ITEMS);
 
@@ -38,6 +40,40 @@ export function TasksDropDown({
         );
     }, [selectedTask]);
 
+    useEffect(() => {
+        if(selectedTask) {
+            setSelectedLabel(selectedTask.label);
+        }
+    }, [selectedTask]);
+
+    const clickedLabelItem = async (newLabel: string) => {
+        const validLabels: Label[] = ['Bug', 'Deployment', 'Documentation', 'Feature', 'Refactoring', 'Testing'];
+        if(!validLabels.includes(newLabel as Label)) {
+            console.error(`The type ${newLabel} is incorrect`);
+            return;
+        }
+        
+        if(selectedTask && tasks) {
+            const updatedTask: Task = {
+                ...selectedTask,
+                label: newLabel as Label,
+            };
+
+            const updateTasksArray = tasks.map((task) =>
+            task.taskId === selectedTask.taskId ? updatedTask : task
+            );
+            
+            try {
+                const result = await updateTasks(updateTasksArray);
+                toast(`${result.success ? `${selectedTask.taskId} Updated successfully!` : `${selectedTask.taskId} Updated failed`}`,{
+                description: result.message,
+            });
+            } catch (error) {
+                console.error("Failed to update tasks:", error);
+            }
+        }
+    };
+        
     return(
         <DropdownMenu
             onOpenChange={(open: boolean) => (open ? onOpen() : onClose())}
@@ -62,6 +98,7 @@ export function TasksDropDown({
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                     <SubLabelMenu
+                        onClickedLabelItem={clickedLabelItem}
                         value={selectedLabel}
                         onValueChange={setSelectedLabel}
                     />

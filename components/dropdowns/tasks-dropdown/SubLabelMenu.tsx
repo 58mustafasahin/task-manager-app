@@ -2,13 +2,23 @@ import { DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, Drop
 import { Tag } from "lucide-react";
 import { LABEL_OPTIONS } from "./constants";
 
+interface SubLabelMenuProps {
+    value: string;
+    onValueChange: (value: string) => void;
+    onClickedLabelItem: (value: string) => void;
+}
+
 export function SubLabelMenu({
     value,
     onValueChange,
-}: {
-    value: string;
-    onValueChange: (value: string) => void;
-}) {
+    onClickedLabelItem,
+}: SubLabelMenuProps) {
+    const handleValueChange = (newValue: string) => {
+        onValueChange(newValue);
+
+        onClickedLabelItem(newValue);
+    };
+
     return (
         <DropdownMenuSub>
             <DropdownMenuSubTrigger>
@@ -17,9 +27,9 @@ export function SubLabelMenu({
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
                 <DropdownMenuSubContent className="poppins">
-                    <DropdownMenuRadioGroup value={value} onValueChange={onValueChange}>
+                    <DropdownMenuRadioGroup value={value} onValueChange={handleValueChange}>
                         {LABEL_OPTIONS.map((option) => (
-                            <DropdownMenuRadioItem key={option} value={option.toLowerCase()}>
+                            <DropdownMenuRadioItem key={option} value={option}>
                                 {option}
                             </DropdownMenuRadioItem>
                         ))}

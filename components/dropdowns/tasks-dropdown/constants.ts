@@ -22,4 +22,4 @@ export const MENU_ITEMS: MenuItemType[] = [
     },
 ];
 
-export const LABEL_OPTIONS = ["Bug", "Feature", "Documentation"];
+export const LABEL_OPTIONS = ['Bug', 'Deployment', 'Documentation', 'Feature', 'Refactoring', 'Testing'];

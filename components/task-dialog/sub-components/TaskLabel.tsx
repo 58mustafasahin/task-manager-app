@@ -9,22 +9,22 @@ type Label = {
 
 const labels: Label[] = [
     {
-        value:"Bug",
+        value:'Bug',
     },
     {
-        value:"Deployment",
+        value:'Deployment',
     },
     {
-        value:"Documentation",
+        value:'Documentation',
     },
     {
-        value:"Feature",
+        value:'Feature',
     },
     {
-        value:"Refactoring",
+        value:'Refactoring',
     },
     {
-        value:"Testing",
+        value:'Testing',
     },
 ];
 
