@@ -14,7 +14,7 @@ export default function Home() {
   
   useEffect(() => {
     fetchTasks();
-  }, []);
+  }, [fetchTasks]);
 
   const bgColor = theme === 'dark' ? 'bg-black' : 'bg-slate-50';
 
